@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 
@@ -6,8 +5,8 @@ function ItemForm({ onItemFormSubmit }) {
   const [itemName, setItemName] = useState("");
   const [itemCategory, setItemCategory] = useState("Produce");
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
     const newItem = {
       id: uuid(),
@@ -17,7 +16,7 @@ function ItemForm({ onItemFormSubmit }) {
 
     onItemFormSubmit(newItem);
 
-    // Clear the form
+    // Reset the form
     setItemName("");
     setItemCategory("Produce");
   }
