@@ -1,3 +1,4 @@
+
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Filter from "../components/Filter";
@@ -12,10 +13,11 @@ const testData = [
   { id: 6, name: "Cookies", category: "Dessert" },
 ];
 
-// Filter Tests
+// Filter
 const noop = () => {};
 test("uses a prop of 'search' to display the search term in the input field", () => {
   render(<Filter search="testing" onSearchChange={noop} />);
+
   expect(screen.queryByPlaceholderText(/Search/).value).toBe("testing");
 });
 
@@ -30,10 +32,22 @@ test("calls the onSearchChange callback prop when the input is changed", () => {
   expect(onChange).toHaveBeenCalled();
 });
 
-// Shopping List Tests
+test("the input field acts as a controlled input", () => {
+  render(<ShoppingList items={testData} />);
+
+  fireEvent.change(screen.queryByPlaceholderText(/Search/), {
+    target: { value: "testing 123" },
+  });
+
+  expect(screen.queryByPlaceholderText(/Search/).value).toBe("testing 123");
+});
+
+// Shopping List
 test("the shopping list displays all items when initially rendered", () => {
   const { container } = render(<ShoppingList items={testData} />);
-  expect(container.querySelector(".Items").children).toHaveLength(testData.length);
+  expect(container.querySelector(".Items").children).toHaveLength(
+    testData.length
+  );
 });
 
 test("the shopping filters based on the search term to include full matches", () => {
